@@ -1,56 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
-import { Card } from 'antd';
-import { fetchList } from '@redux/actions';
-import { GITHUB_LINK } from '@constants/general';
-import LogoIcon from '@icons/LogoIcon';
-import ListItem from '@components/data_entry/ListItem';
+import React from 'react';
+import { Button, Card, Col, Row } from 'antd';
+import { GoogleLogin } from 'react-google-login';
 
 import './Home.less';
+import AppLayout from '@layout/app';
+import { googleClietID } from '@constants/general';
 
 type Props = {};
 
 const Home: React.FC<Props> = () => {
-  const { t } = useTranslation('homeScreen');
-  const [fetching, setFetching] = useState(true);
-  const list = useSelector((state: IReducerStates) => state.list);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    (async () => {
-      await setFetching(true);
-
-      try {
-        await dispatch(fetchList());
-      } catch (error) {
-        // console.log(error)
-      }
-
-      setFetching(false);
-    })();
-  }, [dispatch]);
+  const responseGoogle = (response: any) => {
+    const { profileObj, accessToken } = response;
+    if (accessToken && profileObj) {
+      const data = {
+        accessToken: accessToken,
+        name: profileObj.name,
+        email: profileObj.email,
+        type: 'Google'
+      };
+      console.log(data);
+    }
+  };
 
   return (
-    <>
-      <div className="home">
-        <Card
-          className="home__card"
-          title={t('title')}
-          extra={
-            <a className="home__link" href={GITHUB_LINK} target="_blank" rel="noopener noreferrer">
-              <LogoIcon fill="#3f51b5" /> {t('githubLink')}
-            </a>
-          }
-        >
-          {fetching ? (
-            <p>{t('loading')}</p>
-          ) : (
-            list.map((item: IItem) => <ListItem key={item.id} item={item.name} />)
-          )}
-        </Card>
-      </div>
-    </>
+    <AppLayout>
+      <Row align="middle" justify="center">
+        <Col xs={24} sm={24} md={20} lg={10} xl={10}>
+          <Card
+            hoverable
+            style={{ width: '100%', height: 'auto', marginTop: '2rem' }}
+            cover={
+              <img
+                alt="example"
+                src="https://images.pexels.com/photos/38547/office-freelancer-computer-business-38547.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+              />
+            }
+          >
+            <GoogleLogin
+              clientId={googleClietID}
+              render={(renderProps: any) => (
+                <Button
+                  htmlType="submit"
+                  size="large"
+                  block
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                  Google Sign In
+                </Button>
+              )}
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={'single_host_origin'}
+            />
+          </Card>
+        </Col>
+      </Row>
+    </AppLayout>
   );
 };
 
