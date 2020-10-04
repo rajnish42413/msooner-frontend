@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Card, Col, Row, Form, Checkbox, Input } from 'antd';
 import AppLayout from '@layout/app';
-import './Home.less';
 import { useHistory } from 'react-router';
 
 type Props = {};

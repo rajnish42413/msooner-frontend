@@ -28,7 +28,7 @@ module.exports = override(
     paths: ['./src/styles', './node_modules'],
     javascriptEnabled: true,
     modifyVars: {
- 
+      '@primary-color': '#7579e7',
     },
   }),
 );
