@@ -5,8 +5,14 @@ import { Provider } from 'react-redux';
 import store, { history } from '../redux/store';
 
 const Home = React.lazy(() => import('../screens/home/Home'));
+const Campaign = React.lazy(() => import('../screens/campaign/campaign'));
+const CampaignCreate = React.lazy(() => import('../screens/campaign/create'));
 
-const publicPaths = [{ exact: true, path: '/', component: Home }];
+const publicPaths = [
+  { exact: true, path: '/', component: Home },
+  { exact: true, path: '/campaigns', component: Campaign },
+  { exact: true, path: '/campaigns/001/design', component: CampaignCreate }
+];
 
 const publicRoutes = publicPaths.map(({ path, ...props }) => <Route key={path} path={path} {...props} />);
 
