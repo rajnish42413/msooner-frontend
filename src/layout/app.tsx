@@ -1,5 +1,6 @@
-import { Layout } from 'antd';
 import React from 'react';
+import { Layout } from 'antd';
+
 const { Header, Content, Footer } = Layout;
 
 interface IProps {

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Card, Col, Row, Form, Checkbox, Input } from 'antd';
 import AppLayout from '@layout/app';
 import { useHistory } from 'react-router';
+import { Button, Card, Col, Row, Form, Checkbox, Input } from 'antd';
+
 
 type Props = {};
 
