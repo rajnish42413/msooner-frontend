@@ -3,9 +3,74 @@ import AppLayout from '@layout/app';
 import { Breadcrumb, Menu, Tag, Space, Table, Button, Modal, Typography, Form, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 export default function Campaign() {
   const [createCampaignVisibility, setCreateCampaignVisibility] = useState(false);
+
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string) => <Button type="text">{text}</Button>
+    },
+    {
+      title: 'Created At',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (text: string) => <span>{moment(text).fromNow()}</span>
+    },
+    {
+      title: 'People',
+      dataIndex: 'people',
+      key: 'people'
+    },
+    {
+      title: 'Tags',
+      key: 'tags',
+      dataIndex: 'tags',
+      render: (tags: any) => (
+        <>
+          {tags.map((tag: any) => {
+            let color = tag.length > 5 ? 'geekblue' : 'green';
+            if (tag === 'loser') {
+              color = 'volcano';
+            }
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      )
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text: string, record: any) => (
+        <Space size="middle">
+          <Link to="/campaigns/001/design">
+            <Button type="primary" size="small">
+              Design Automation
+            </Button>
+          </Link>
+          <Link to="/campaigns/001/design">
+            <Button type="primary" size="small">
+              Add Users
+            </Button>
+          </Link>
+          <Button type="dashed" size="small">
+            Edit
+          </Button>
+          <Button type="dashed" danger size="small">
+            Delete
+          </Button>
+        </Space>
+      )
+    }
+  ];
   return (
     <AppLayout header={<Header />}>
       <RenderBreadcrumb />
@@ -82,66 +147,6 @@ const CreateCampaign = ({ visible, setVisible }: IPropsCreateCampaign) => {
     </Modal>
   );
 };
-
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text: string) => <Button type="text">{text}</Button>
-  },
-  {
-    title: 'Created At',
-    dataIndex: 'created_at',
-    key: 'created_at',
-    render: (text: string) => <span>{moment(text).fromNow()}</span>
-  },
-  {
-    title: 'People',
-    dataIndex: 'people',
-    key: 'people'
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (tags: any) => (
-      <>
-        {tags.map((tag: any) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    )
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text: string, record: any) => (
-      <Space size="middle">
-        <Button type="primary" size="small" href="/campaigns/001/design">
-          Design Automation
-        </Button>
-        <Button type="primary" size="small" href="/campaigns/001/design">
-          Add Users
-        </Button>
-        <Button type="dashed" size="small">
-          Edit
-        </Button>
-        <Button type="dashed" danger size="small">
-          Delete
-        </Button>
-      </Space>
-    )
-  }
-];
 
 const data = [
   {
