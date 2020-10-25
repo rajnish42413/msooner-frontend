@@ -14,7 +14,18 @@ export default function Campaign() {
           <PlusOutlined /> New Campaign
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        expandable={{
+          expandedRowRender: (record) => (
+            <div style={{ padding: '1rem' }}>
+              <Table columns={templateColumns} dataSource={templetData} size="small" pagination={false} />
+            </div>
+          ),
+          rowExpandable: (record) => record.name !== 'Not Expandable'
+        }}
+      />
       <CreateCampaign visible={createCampaignVisibility} setVisible={setCreateCampaignVisibility} />
     </AppLayout>
   );
@@ -118,6 +129,9 @@ const columns = [
         <Button type="primary" size="small" href="/campaigns/001/design">
           Design Automation
         </Button>
+        <Button type="primary" size="small" href="/campaigns/001/design">
+          Add Users
+        </Button>
         <Button type="dashed" size="small">
           Edit
         </Button>
@@ -151,5 +165,48 @@ const data = [
     people: 32,
     created_at: '2020-10-02 10:40:43',
     tags: ['cool', 'daily']
+  }
+];
+
+const templateColumns = [
+  {
+    title: 'Template id',
+    dataIndex: 'id',
+    key: 'id'
+  },
+  {
+    title: 'Template Nname',
+    dataIndex: 'name',
+    key: 'name'
+  },
+  {
+    title: 'Created At',
+    dataIndex: 'created_at',
+    key: 'created_at',
+    render: (text: string) => <span>{moment(text).fromNow()}</span>
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text: string, record: any) => (
+      <Space size="middle">
+        <Button type="dashed" danger size="small">
+          Delete
+        </Button>
+      </Space>
+    )
+  }
+];
+
+const templetData = [
+  {
+    id: 'fnjkdsngkfd_2953494285_23',
+    name: 'CMPJ Email Template 001',
+    created_at: '2020-09-07 10:40:43'
+  },
+  {
+    id: 'fnjkdsngkfd_2953494285_23',
+    name: 'CMPJ Email Template 002',
+    created_at: '2020-09-07 10:40:43'
   }
 ];
